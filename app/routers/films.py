@@ -4,7 +4,7 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
 
-from ..data import get_films
+from ..data import get_films, get_film, save_film
 from ..keyboards import build_films_keyboard
 
 
@@ -21,10 +21,10 @@ async def show_films_command(message: Message, state: FSMContext) -> None:
        text="Виберіть будь-який фільм",
        reply_markup=keyboard,
    )
+
 from ..data import get_films, get_film, save_film
 from ..fsm import FilmCreateForm
 
-...
 
 @film_router.message(Command("filmcreate"))
 @film_router.message(F.text.casefold() == "filmcreate")
@@ -102,14 +102,3 @@ async def edit_or_answer(message: Message, text: str, keyboard, *args, **kwargs)
    else:
        await message.answer(text=text, reply_markup=keyboard, **kwargs)
 
-
-from dotenv import load_dotenv
-from os import getenv
-
-
-from aiogram import Bot, Dispatcher, Router
-from aiogram.enums import ParseMode
-from aiogram.filters import CommandStart
-from aiogram.types import Message
-from aiogram.utils.markdown import hbold
-from aiogram.client.default import DefaultBotProperties
