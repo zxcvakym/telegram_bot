@@ -6,7 +6,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 
 from ..data import get_films, get_film, save_film
 from ..keyboards import build_films_keyboard
-
+from ..fsm import FilmCreateForm
 
 film_router = Router()
 
@@ -21,9 +21,6 @@ async def show_films_command(message: Message, state: FSMContext) -> None:
        text="Виберіть будь-який фільм",
        reply_markup=keyboard,
    )
-
-from ..data import get_films, get_film, save_film
-from ..fsm import FilmCreateForm
 
 
 @film_router.message(Command("filmcreate"))
