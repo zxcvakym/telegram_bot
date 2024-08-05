@@ -22,6 +22,17 @@ async def show_films_command(message: Message, state: FSMContext) -> None:
        reply_markup=keyboard,
    )
 
+   
+@film_router.callback_query(F.data.startswith("film_"))
+async def show_film_details(callback: CallbackQuery, state: FSMContext) -> None:
+   film_id = int(callback.data.split("_")[-1])
+   film = get_film(film_id)
+   text = f"Назва:{hbold(film.get('title'))}\nОпис:{hbold(film.get('desc'))}\nРейтинг:{hbold(film.get('rating'))}"
+   photo_id = film.get('photo')
+   url = film.get('url')
+   await callback.message.answer_photo(photo_id)
+   await edit_or_answer(callback.message, text, build_film_details_keyboard(url))
+
 
 @film_router.message(Command("filmcreate"))
 @film_router.message(F.text.casefold() == "filmcreate")
