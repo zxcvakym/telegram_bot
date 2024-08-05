@@ -7,16 +7,6 @@ def build_films_keyboard(films: list):
        builder.button(text=film.get("title"), callback_data=f"film_{index}")
    return builder.as_markup()
 
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-
-
-
-
-def build_films_keyboard(films: list):
-   builder = InlineKeyboardBuilder()
-   for index, film in enumerate(films):
-       builder.button(text=film.get("title"), callback_data=f"film_{index}")
-   return builder.as_markup()
 
 
 def build_film_details_keyboard(url):
