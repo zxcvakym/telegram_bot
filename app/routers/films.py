@@ -4,8 +4,8 @@ from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.utils.markdown import hbold
 
-from ..data import get_films, get_film, save_film
-from ..keyboards import build_films_keyboard
+from ..data import get_films, get_film, save_film,del_film
+from ..keyboards import build_films_keyboard,build_film_details_keyboard
 from ..fsm import FilmCreateForm
 
 film_router = Router()
@@ -22,7 +22,7 @@ async def show_films_command(message: Message, state: FSMContext) -> None:
        reply_markup=keyboard,
    )
 
-   
+
 @film_router.callback_query(F.data.startswith("film_"))
 async def show_film_details(callback: CallbackQuery, state: FSMContext) -> None:
    film_id = int(callback.data.split("_")[-1])
@@ -31,7 +31,7 @@ async def show_film_details(callback: CallbackQuery, state: FSMContext) -> None:
    photo_id = film.get('photo')
    url = film.get('url')
    await callback.message.answer_photo(photo_id)
-   await edit_or_answer(callback.message, text, build_film_details_keyboard(url))
+   await edit_or_answer(callback.message, text, build_film_details_keyboard(url,film_id))
 
 
 @film_router.message(Command("filmcreate"))
@@ -110,3 +110,10 @@ async def edit_or_answer(message: Message, text: str, keyboard, *args, **kwargs)
    else:
        await message.answer(text=text, reply_markup=keyboard, **kwargs)
 
+
+@film_router.callback_query(F.data.startswith("remove_"))
+async def remove_film(callback: CallbackQuery, state: FSMContext) -> None:
+   film_id = int(callback.data.split("_")[-1])
+   del_film(film_id)
+
+   await callback.message.answer(text="Успішно видаленно",)

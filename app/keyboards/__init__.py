@@ -1,1 +1,1 @@
-from .films import build_films_keyboard
+from .films import build_films_keyboard,build_film_details_keyboard

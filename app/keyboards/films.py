@@ -9,9 +9,11 @@ def build_films_keyboard(films: list):
 
 
 
-def build_film_details_keyboard(url):
+def build_film_details_keyboard(url,index):
    builder = InlineKeyboardBuilder()
    builder.button(text="Перейти за посиланням", url=url)
+   builder.button(text="Remove", callback_data=f"remove_{index}")
+
    builder.button(text="Go back", callback_data="back")
    return builder.as_markup()
   
@@ -21,3 +23,4 @@ def build_menu_keyboard():
    builder = InlineKeyboardBuilder()
    builder.button(text="Go back", callback_data="back")
    return builder.as_markup()
+

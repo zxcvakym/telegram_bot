@@ -22,3 +22,12 @@ def save_film(film:dict = {}, f_path:str = "app/data/films.json") -> bool:
 
 def get_film(id:int=0, f_path:str = "app/data/films.json")->dict:
    return get_films(f_path)[id]
+
+def del_film(id:int=0, f_path:str = "app/data/films.json"):
+    
+   with open(f_path) as fh:
+       data = json.load(fh)
+       films = data.get("films")
+       films.pop(id)
+   with open(f_path, "w") as fh:
+       json.dump(data, fh, indent=4)
